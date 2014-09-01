@@ -83,6 +83,9 @@ Ember.Selectize = Ember.View.extend({
     this._selectionDidChange();
 
     this.setDefaultValue();
+    this.on('dataChanged', function(obj) {
+        this.changeData(obj);
+    });
   },
   willDestroyElement : function() {
 
@@ -95,6 +98,13 @@ Ember.Selectize = Ember.View.extend({
 
     //We are no longer in DOM
     this.inDOM = false;
+    this.off('dataChanged',this,);
+  },
+  /**
+   * Event callback that is triggered when item is changed
+   */
+  changeData: function (obj) {
+    set(this, 'selection', obj);
   },
   /**
    * Setting default value for selectbox
@@ -138,7 +148,7 @@ Ember.Selectize = Ember.View.extend({
           selection.addObject(obj);
       } else if(obj){
         if(!selection || (get(obj,get(this,'_valuePath')) !== get(selection,get(this,'_valuePath'))))
-          set(this,'selection',obj);
+          this.trigger('dataChanged',obj);
       }
     }
   },
