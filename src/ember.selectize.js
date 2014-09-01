@@ -70,7 +70,10 @@ Ember.Selectize = Ember.View.extend({
       create: allowCreate ? Ember.$.proxy(this._create, this) : false,
       onItemAdd : Ember.$.proxy(this._onItemAdd, this),
       onItemRemove : Ember.$.proxy(this._onItemRemove, this),
-      onType : Ember.$.proxy(this._onType, this)
+      onType : Ember.$.proxy(this._onType, this),
+      render: {
+        option: Ember.$.proxy(this._renderOption, this)
+      }
     });
 
     //Save the created selectize instance
@@ -81,6 +84,8 @@ Ember.Selectize = Ember.View.extend({
     this._disabledDidChange();
     this._contentDidChange();
     this._selectionDidChange();
+
+    this._setDefaultValue();
   },
   willDestroyElement : function() {
 
@@ -93,6 +98,27 @@ Ember.Selectize = Ember.View.extend({
 
     //We are no longer in DOM
     this.inDOM = false;
+  },
+  /**
+   * Abstract method (needs to be override)
+   * Render one option in selectbox
+   */
+  _renderOption: function (item, escape) {
+
+  },
+  /**
+   * Abstract method (needs to be override)
+   * Event callback that is triggered when item is changed
+   */
+  _changeData: function (obj) {
+
+  },
+  /**
+   * Abstract method (needs to be override)
+   * Set default value
+   */
+  _setDefaultValue: function () {
+    
   },
   /**
    * Event callback that is triggered when user creates a tag
@@ -130,7 +156,7 @@ Ember.Selectize = Ember.View.extend({
           selection.addObject(obj);
       } else if(obj){
         if(!selection || (get(obj,get(this,'_valuePath')) !== get(selection,get(this,'_valuePath'))))
-          set(this,'selection',obj);
+          this.changeData(obj);
       }
     }
   },
