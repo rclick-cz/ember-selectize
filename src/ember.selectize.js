@@ -81,6 +81,8 @@ Ember.Selectize = Ember.View.extend({
     this._disabledDidChange();
     this._contentDidChange();
     this._selectionDidChange();
+
+    this.setDefaultValue();
   },
   willDestroyElement : function() {
 
@@ -93,6 +95,12 @@ Ember.Selectize = Ember.View.extend({
 
     //We are no longer in DOM
     this.inDOM = false;
+  },
+  /**
+   * Setting default value for selectbox
+   */
+  setDefaultValue: function () {
+    this.selectize.setValue(get(this, 'selection'));
   },
   /**
    * Event callback that is triggered when user creates a tag
