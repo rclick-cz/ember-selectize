@@ -101,7 +101,7 @@ Ember.Selectize = Ember.View.extend({
 
     //We are no longer in DOM
     this.inDOM = false;
-    this.off('dataChanged',this,);
+    this.off('dataChanged',this);
   },
   /**
    * Event callback that is triggered when item is changed
