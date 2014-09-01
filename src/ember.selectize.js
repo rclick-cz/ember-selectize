@@ -62,6 +62,8 @@ Ember.Selectize = Ember.View.extend({
 
     //Create Selectize's instance
     //We proxy callbacks through jQuery's 'proxy' to have the callbacks context set to 'this'
+    //You can set options to selectize when you constructing ember-select (for more information check official selectize API)
+    this.renderOptions = this.renderOptions || {};
     this.$().selectize({
       plugins: this.plugins,
       labelField : 'label',
@@ -70,7 +72,8 @@ Ember.Selectize = Ember.View.extend({
       create: allowCreate ? Ember.$.proxy(this._create, this) : false,
       onItemAdd : Ember.$.proxy(this._onItemAdd, this),
       onItemRemove : Ember.$.proxy(this._onItemRemove, this),
-      onType : Ember.$.proxy(this._onType, this)
+      onType : Ember.$.proxy(this._onType, this),
+      render: this.renderOptions
     });
 
     //Save the created selectize instance
